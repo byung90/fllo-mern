@@ -1,6 +1,6 @@
 import React from "react";
 
-const Offers = () => {
+const Add = () => {
   return (
     <nav className="navbar d-flex">
       <h2>All listings</h2>
@@ -11,4 +11,4 @@ const Offers = () => {
   )
 };
 
-export default Offers;
+export default Add;

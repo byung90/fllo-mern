@@ -1,5 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Header from "./components/Header";
+import Listings from "./pages/Listings";
+import PropertyDetail from "./pages/PropertyDetail";
+import Offers from "./pages/Offers";
+import Add from "./pages/Add";
 
 function App() {
   return (
@@ -11,7 +16,7 @@ function App() {
             <Listings />
           </Route>
           <Route exact path="/listings/:id">
-            <Property />
+            <PropertyDetail />
           </Route>
           <Route exact path="/listings/:id/offers">
             <Offers />
