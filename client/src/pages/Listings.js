@@ -1,7 +1,9 @@
-import React from "react";
-import PropertyContainer from "../components/PropertyContainer";
+import React, { useState, useEffect } from "react";
+import PropertyCardContainer from "../components/PropertyCardContainer";
+import API from "../utils/API";
 
 const Listings = () => {
+
   return (
     <>
       <nav className="navbar d-flex">
@@ -10,7 +12,7 @@ const Listings = () => {
           Add New Property
         </div>
       </nav>
-      <PropertyContainer />
+      <PropertyCardContainer />
     </>
   )
 };
