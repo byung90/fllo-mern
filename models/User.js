@@ -18,6 +18,10 @@ const UserSchema = new Schema({
     unique: true,
     match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
   },
+  password: {
+    type: String,
+    required: "Enter Password"
+  },
   company: {
     type: Schema.Types.ObjectId,
     ref: "Company"

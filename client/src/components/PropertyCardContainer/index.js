@@ -28,7 +28,7 @@ const PropertyCardContainer = () => {
 
           <div className="card-body">
             <a href={"/listings/" + property._id}>
-              <h5 className="card-title">{property.addressOne}, {property.city}, {property.state} {property.zipcoe}</h5>
+              <h5 className="card-title">{property.addressOne}, {property.city}, {property.state} {property.zipcode}</h5>
             </a>
             <p className="card-text">
               LTV: {property.ltv}

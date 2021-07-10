@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Button, Modal, Form, Row, Col } from "react-bootstrap"
+import React, { useState, useEffect, useRef } from "react";
+import { Alert, Button, Modal, Form, Row, Col } from "react-bootstrap"
 import { Link, useParams } from "react-router-dom";
 import API from "../utils/API";
 
@@ -8,16 +8,45 @@ const PropertyDetail = () => {
   const { id } = useParams();
   console.log(id);
 
-  // Modal
-  const [show, setShow] = useState(false);
-  const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
+  const [property, setProperty] = useState({});
+  const [newOffer, setNewOffer] = useState({});
+  const [alertShow, setAlertShow] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
-  const [property, setProperty] = useState([]);
+  // New Offer
+  let offerLoanAmount = useRef({});
+  let offerInterestRate = useRef({});
+  let offerLTV = useRef({});
+  let offerTerm = useRef({});
+  let offerAmortization = useRef({});
+
+  // Modal
+  const handleShow = () => setModalShow(true);
+  const handleClose = () => {
+    const newOffer = {
+      loanAmount: offerLoanAmount.current.value,
+      interestRate: offerInterestRate.current.value,
+      ltv: offerLTV.current.value,
+      term: offerTerm.current.value,
+      amortization: offerAmortization.current.value,
+      status: "Pending",
+      property: id,
+      bank: "60e962ff9d68e91dec78a18a"
+    }
+
+    API.createOffer(newOffer)
+      .then(res => {
+        setNewOffer(res.data);
+      })
+      .catch(err => console.log(err))
+
+    setAlertShow(true);
+    setModalShow(false);
+  }
 
   useEffect(() => {
     loadProperty();
-  }, []);
+  }, [newOffer]);
 
   function loadProperty() {
     API.getPropertyDetail(id)
@@ -30,9 +59,19 @@ const PropertyDetail = () => {
 
   return (
     <>
+      <Alert show={alertShow} variant="success">
+        <Alert.Heading>Offer Successfully Made!</Alert.Heading>
+        <hr />
+        <div className="d-flex justify-content-end">
+          <Button onClick={() => setAlertShow(false)} variant="outline-success">
+            Close
+          </Button>
+        </div>
+      </Alert>
+
       <nav className="navbar d-flex">
         <button type="button" className="btn btn-primary">Back</button>
-        <h2>Building Address</h2>
+        <h2>{property.addressOne}, {property.city}, {property.state} {property.zipcode}</h2>
         <ul className="ms-auto nav">
           <li className="nav-item">
             <a className="nav-link active" aria-current="page" href="#">Basic Info</a>
@@ -85,7 +124,7 @@ const PropertyDetail = () => {
         </div>
       </div>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={modalShow} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Make an Offer</Modal.Title>
         </Modal.Header>
@@ -95,27 +134,27 @@ const PropertyDetail = () => {
               <Row>
                 <Col>
                   <Form.Label>Loan Amout</Form.Label>
-                  <Form.Control type="number" placeholder="Enter Loan Amount" />
+                  <Form.Control type="number" placeholder="Enter Loan Amount" ref={offerLoanAmount} />
                 </Col>
                 <Col>
                   <Form.Label>Interest Rate</Form.Label>
-                  <Form.Control type="number" placeholder="Enter Interest Rate" />
+                  <Form.Control type="number" placeholder="Enter Interest Rate" ref={offerInterestRate} />
                 </Col>
               </Row>
               <Row>
                 <Col>
                   <Form.Label>LTV</Form.Label>
-                  <Form.Control type="number" placeholder="Enter LTV" />
+                  <Form.Control type="number" placeholder="Enter LTV" ref={offerLTV} />
                 </Col>
                 <Col>
                   <Form.Label>Term</Form.Label>
-                  <Form.Control type="number" placeholder="Enter Term Years" />
+                  <Form.Control type="number" placeholder="Enter Term Years" ref={offerTerm} />
                 </Col>
               </Row>
               <Row>
                 <Col>
                   <Form.Label>Amortization</Form.Label>
-                  <Form.Control type="number" placeholder="Enter Amortization Years" />
+                  <Form.Control type="number" placeholder="Enter Amortization Years" ref={offerAmortization} />
                 </Col>
                 <Col>
                 </Col>
@@ -125,7 +164,7 @@ const PropertyDetail = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Cancel
           </Button>
           <Button variant="primary" onClick={handleClose}>
             Finalize Offer

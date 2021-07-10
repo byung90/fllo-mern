@@ -12,8 +12,13 @@ const getOffers = (propertyId) => {
   return axios.get("http://localhost:3001/api/" + propertyId + "/offers");
 }
 
+const createOffer = (offerData) => {
+  return axios.post("http://localhost:3001/api/createOffer", offerData)
+}
+
 export default {
   getAllListings,
   getPropertyDetail,
-  getOffers
+  getOffers,
+  createOffer
 }

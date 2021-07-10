@@ -1,5 +1,47 @@
 const router = require("express").Router();
 const db = require("./../models");
+const bcrypt = require("bcrypt");
+
+// Create user
+router.post("/api/user/create", (req, res) => {
+  bcrypt.hash((req.body.password, 10, (err, hash) => {
+    db.User.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: hash,
+      company: req.body.company
+    })
+      .then(data => {
+        if (data) {
+          res.direct('/');
+        }
+      })
+  }))
+});
+
+// Login user
+router.post("/api/user/login", (req, res) => {
+  db.User.findOne({
+    email: req.body.email
+  })
+    .then(user => {
+      if (!user) {
+        res.redirect('/');
+      }
+      else {
+        bcrypt.compare((req.body.password, user.password, (err, result) => {
+          if (result === true) {
+            res.redirect('/listings');
+          }
+          else {
+            res.send('Incorrect Password');
+            res.redirect('/');
+          }
+        }))
+      }
+    })
+})
 
 // Create Company
 router.post("/api/createCompany", ({ body }, res) => {
@@ -112,11 +154,6 @@ router.get("/api/:propertyId/offers", (req, res) => {
 // Create offer
 router.post("/api/createOffer", ({ body }, res) => {
   db.Offer.create(body)
-    .then(({ _id }) => {
-      console.log(body);
-      console.log(_id);
-      db.Property.findOneAndUpdate({ _id: body.property }, { $push: { offers: _id } }, { new: true })
-    })
     .then(dbOffer => {
       console.log(dbOffer);
       res.json(dbOffer);
