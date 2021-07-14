@@ -22,6 +22,9 @@ const PropertyDetail = () => {
 
   // Modal
   const handleShow = () => setModalShow(true);
+  const handleCancel = () => {
+    setModalShow(false);
+  }
   const handleClose = () => {
     const newOffer = {
       loanAmount: offerLoanAmount.current.value,
@@ -124,7 +127,7 @@ const PropertyDetail = () => {
         </div>
       </div>
 
-      <Modal show={modalShow} onHide={handleClose}>
+      <Modal show={modalShow} onHide={handleCancel}>
         <Modal.Header closeButton>
           <Modal.Title>Make an Offer</Modal.Title>
         </Modal.Header>
@@ -163,7 +166,7 @@ const PropertyDetail = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleCancel}>
             Cancel
           </Button>
           <Button variant="primary" onClick={handleClose}>

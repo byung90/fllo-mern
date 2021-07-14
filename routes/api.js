@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 // Create user
 router.post("/api/user/create", (req, res) => {
-  bcrypt.hash((req.body.password, 10, (err, hash) => {
+  bcrypt.hash(req.body.password, 10, function (err, hash) {
     db.User.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -12,35 +12,79 @@ router.post("/api/user/create", (req, res) => {
       password: hash,
       company: req.body.company
     })
-      .then(data => {
-        if (data) {
-          res.direct('/');
-        }
+      .then(function (data) {
+        console.log(data);
+        req.session.save(() => {
+          req.session.user_id = data._id;
+          req.session.logged_in = true;
+
+          const { password, ...userData } = data._doc
+          res.status(200).json(userData);
+        })
       })
-  }))
+      .catch(function (err) {
+        res.status(400).json(err);
+      })
+  })
+});
+
+// list users - DEVELOPMENT
+router.get("/api/users", (req, res) => {
+  db.User.find({})
+    .then(dbProperty => {
+      res.json(dbProperty);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
 });
 
 // Login user
 router.post("/api/user/login", (req, res) => {
+  console.log("req.body" + req.body);
   db.User.findOne({
     email: req.body.email
   })
     .then(user => {
+      console.log("user:" + user);
       if (!user) {
-        res.redirect('/');
+        res.status(400).json("Incorrect Email"); // DEVELOPMENT
+        return;
       }
       else {
-        bcrypt.compare((req.body.password, user.password, (err, result) => {
-          if (result === true) {
-            res.redirect('/listings');
+        bcrypt.compare(req.body.password, user.password, function (err, result) {
+          console.log("result: " + result);
+          if (!result) {
+            res.status(400).json("Incorrect Password"); // DEVELOPMENT
+            return;
           }
           else {
-            res.send('Incorrect Password');
-            res.redirect('/');
+            req.session.save(() => {
+              req.session.user_id = user._id;
+              req.session.logged_in = true;
+
+              const { password, ...userData } = user
+              console.log(req.session);
+              res.status(200).json(userData);
+            })
           }
-        }))
+        })
       }
     })
+    .catch(err => {
+      res.status(400).json(err);
+    })
+})
+
+// Check auth
+router.get("/api/user/checkAuth", (req, res) => {
+  if (req.session.logged_in) {
+    console.log(req.session);
+    res.status(200).json(true);
+  }
+  else {
+    res.json(false);
+  }
 })
 
 // Create Company
@@ -103,7 +147,7 @@ router.get("/api/company/:companyId", (req, res) => {
     });
 });
 
-// Get company detail
+// Get all companies
 router.get("/api/company", (req, res) => {
   db.Company.find({})
     .then(dbCompany => {
