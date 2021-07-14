@@ -45,6 +45,7 @@ router.post("/api/user/login", (req, res) => {
   db.User.findOne({
     email: req.body.email
   })
+    .populate("company")
     .then(user => {
       console.log("user:" + user);
       if (!user) {
@@ -60,11 +61,19 @@ router.post("/api/user/login", (req, res) => {
           }
           else {
             req.session.save(() => {
+              console.log("user:" + user);
               req.session.user_id = user._id;
               req.session.logged_in = true;
+              req.session.company_id = user.company._id;
+              req.session.company_isBank = user.company.isBank;
 
-              const { password, ...userData } = user
-              console.log(req.session);
+              const userData = {
+                auth: true,
+                user_id: req.session.user_id,
+                company_isBank: req.session.company_isBank,
+                company_id: req.session.company_id
+              }
+
               res.status(200).json(userData);
             })
           }
@@ -76,16 +85,47 @@ router.post("/api/user/login", (req, res) => {
     })
 })
 
+// Log out
+router.post('/api/user/logout', (req, res) => {
+  if (req.session.logged_in) {
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  } else {
+    res.status(404).end();
+  }
+});
+
 // Check auth
 router.get("/api/user/checkAuth", (req, res) => {
   if (req.session.logged_in) {
     console.log(req.session);
-    res.status(200).json(true);
+    res.json({
+      auth: true,
+      user_id: req.session.user_id,
+      company_isBank: req.session.company_isBank,
+      company_id: req.session.company_id
+    });
   }
   else {
-    res.json(false);
+    res.json({
+      auth: false
+    });
   }
 })
+
+router.get("/api/user/:id", (req, res) => {
+  db.User.findById(req.params.id)
+    .populate("company")
+    .then(dbUser => {
+      const { password, ...userData } = dbUser._doc;
+      res.json(userData);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
 
 // Create Company
 router.post("/api/createCompany", ({ body }, res) => {

@@ -9,34 +9,37 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import API from "./utils/API";
 import AuthAPI from "./utils/AuthAPI";
+import CompanyContext from "./utils/CompanyContext";
 
 function App() {
-  const [auth, setAuth] = useState(flase);
-  const [isLoggedIn, setIsLoggedIn] = useState();
+  const [auth, setAuth] = useState();
+  // const [userId, setUserId] = useState();
+  const [companyId, setCompanyId] = useState();
+  const [companyIsBank, setCompanyIsBank] = useState();
 
-  // useEffect(() => {
-  //   checkAuth();
-  // }, [isLoggedIn]);
+  const readSession = async () => {
+    const res = await API.checkAuth();
+    console.log(res.data);
+    if (res.data.auth) {
+      const userData = res.data;
+      setAuth(userData.auth);
+      // setUserId(userData.user_id);
+      setCompanyId(userData.company_id);
+      setCompanyIsBank(userData.company_isBank);
 
-  // function checkAuth() {
-  //   API.checkAuth()
-  //     .then(res => {
-  //       console.log(res.data);
-  //       setIsLoggedIn(res.data);
-  //     })
-  //     .catch(err => console.log(err));
-  // }
+    }
+    else {
+      setAuth(false);
+    }
+  }
 
-  // if (!isLoggedIn) {
-  //   return <Login />
-  // }
-  // if (!token) {
-  //   console.log();
-  //   return <Login setToken={setToken} />
-  // }
+  useEffect(() => {
+    readSession();
+  }, [auth])
 
   const RouteRegister = ({ component: Component, ...rest }) => {
-    const authAPI = React.useContext(AuthAPI);
+    const authApi = useContext(AuthAPI);
+    // console.log(authApi);
     return <Route
       {...rest}
       render={props =>
@@ -45,29 +48,35 @@ function App() {
   }
 
   const RouteProtected = ({ component: Component, ...rest }) => {
-    const authAPI = React.useContext(AuthAPI);
+    const authApi = useContext(AuthAPI);
+    // console.log(authApi);
     return <Route
       {...rest}
       render={props =>
-        authApi.auth ? <Component {...props} /> : <Redirect to="/login" />}
+        authApi.auth ? <Component {...props} /> : <Redirect to="/login" />
+
+      }
+
     />;
   }
 
   return (
     <AuthAPI.Provider value={{ auth, setAuth }}>
-      <Router>
-        <Header />
-        <div className="container">
-          <Switch>
-            <RouteRegister path="/login" component={Login} />
-            <RouteRegister path="/signup" component={SignUp} />
-            <RouteProtected exact path={[" /", "/listings"]} component={Listings} />
-            <RouteProtected exact path="/listings/:id" component={PropertyDetail} />
-            <RouteProtected exact path="/listings/:id/offers" component={Offers} />
-            <RouteProtected exact path="/add" component={Add} />
-          </Switch>
-        </div>
-      </Router>
+      <CompanyContext.Provider value={{ companyId, companyIsBank, setCompanyId, setCompanyIsBank }}>
+        <Router>
+          <Header />
+          <div className="container">
+            <Switch>
+              <RouteRegister path="/login" component={Login} />
+              <RouteRegister path="/signup" component={SignUp} />
+              <RouteProtected exact path={["/", "/listings"]} component={Listings} />
+              <RouteProtected exact path="/listings/:id" component={PropertyDetail} />
+              <RouteProtected exact path="/listings/:id/offers" component={Offers} />
+              <RouteProtected exact path="/add" component={Add} />
+            </Switch>
+          </div>
+        </Router>
+      </CompanyContext.Provider>
     </ AuthAPI.Provider>
   );
 }

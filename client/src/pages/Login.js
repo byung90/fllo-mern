@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import API from "../utils/API";
-import { Form, Button } from "react-bootstrap"
+import { Form, Button } from "react-bootstrap";
+import AuthAPI from "../utils/AuthAPI";
+import CompanyContext from "../utils/CompanyContext";
 
 const Login = () => {
+  const authApi = useContext(AuthAPI);
+  const companyContext = useContext(CompanyContext);
   const [userInfo, setUserInfo] = useState({});
   let email = useRef({});
   let password = useRef({});
@@ -16,7 +20,11 @@ const Login = () => {
     API.postLogin(loginBody)
       .then(res => {
         console.log(res.data);
-        setUserInfo(res.data);
+        const userData = res.data;
+        authApi.setAuth(userData.auth);
+        // setUserId(userData.user_id);
+        companyContext.setCompanyId(userData.company_id);
+        companyContext.setCompanyIsBank(userData.company_isBank);
       })
       .catch(err => { console.log(err) })
   }

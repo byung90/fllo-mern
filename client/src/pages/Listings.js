@@ -3,7 +3,6 @@ import PropertyCardContainer from "../components/PropertyCardContainer";
 import API from "../utils/API";
 
 const Listings = () => {
-
   return (
     <>
       <nav className="navbar d-flex">

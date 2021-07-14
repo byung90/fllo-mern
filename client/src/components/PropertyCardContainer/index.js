@@ -1,21 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
+import AuthAPI from "../../utils/AuthAPI";
+import CompanyContext from "../../utils/CompanyContext";
 
 const PropertyCardContainer = () => {
   const [properties, setProperties] = useState([]);
+  const [authMounted, setAuthMounted] = useState(false);
+  const authApi = useContext(AuthAPI);
+  const companyContext = useContext(CompanyContext);
 
   useEffect(() => {
-    loadProperties();
+    if (companyContext.companyId !== undefined && companyContext.companyIsBank !== undefined) {
+      loadProperties();
+    }
   }, []);
 
   function loadProperties() {
-    API.getAllListings()
-      .then(res => {
-        console.log(res.data);
-        setProperties(res.data);
+    // console.log(authApi);
+    const companyId = companyContext.companyId;
+    const companyIsBank = companyContext.companyIsBank;
+
+    if (!companyIsBank) {
+      API.getCompanyListings(companyId).then(res => {
+        console.log(res);
+        setProperties(prev => {
+          return res.data;
+        });
       })
-      .catch(err => console.log(err));
+    }
+    else {
+      API.getAllListings().then(res => {
+        setProperties(prev => {
+          console.log(prev);
+          return res.data;
+        });
+      });
+    }
+
+
+
+
   }
 
   return (

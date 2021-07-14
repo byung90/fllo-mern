@@ -1,35 +1,47 @@
 import axios from "axios";
 
 const postLogin = (submitLogin) => {
-  return axios.post("http://localhost:3001/api/user/login", submitLogin);
+  return axios.post("api/user/login", submitLogin);
+}
+
+const logout = () => {
+  return axios.post("api/user/logout");
 }
 
 const createUser = () => {
-  return axios.post("http://localhost:3001/api/user/create");
+  return axios.post("api/user/create");
 }
 
 const checkAuth = () => {
-  return axios.get("http://localhost:3001/api/user/checkAuth");
+  return axios.get("api/user/checkAuth");
+}
+
+const getUser = (id) => {
+  return axios.get("api/user/" + id);
 }
 
 const getAllCompanies = () => {
-  return axios.post("http://localhost:3001/api/company");
+  return axios.post("api/company");
 }
 
 const getAllListings = () => {
-  return axios.get("http://localhost:3001/api/listings");
+  return axios.get("api/listings");
+}
+
+const getCompanyListings = (companyId) => {
+  return axios.get("api/listings/" + companyId);
 }
 
 const getPropertyDetail = (propertyId) => {
-  return axios.get("http://localhost:3001/api/property/" + propertyId);
+  return axios.get("api/property/" + propertyId);
 }
 
 const getOffers = (propertyId) => {
-  return axios.get("http://localhost:3001/api/" + propertyId + "/offers");
+  return axios.get("api/" + propertyId + "/offers");
 }
 
 const createOffer = (offerData) => {
-  return axios.post("http://localhost:3001/api/createOffer", offerData)
+  return axios.post("api/createOffer", offerData)
 }
 
 export default {
@@ -40,5 +52,8 @@ export default {
   postLogin,
   createUser,
   getAllCompanies,
-  checkAuth
+  checkAuth,
+  getUser,
+  logout,
+  getCompanyListings
 }

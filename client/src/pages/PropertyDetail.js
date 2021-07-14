@@ -1,9 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Alert, Button, Modal, Form, Row, Col } from "react-bootstrap"
 import { Link, useParams } from "react-router-dom";
 import API from "../utils/API";
+import AuthAPI from "../utils/AuthAPI";
 
 const PropertyDetail = () => {
+  const authApi = useContext(AuthAPI);
+
+  console.log(authApi.api);
+
   // Property Id
   const { id } = useParams();
   console.log(id);
