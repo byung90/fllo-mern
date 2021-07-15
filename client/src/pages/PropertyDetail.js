@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { Alert, Button, Modal, Form, Row, Col } from "react-bootstrap"
+import { Alert, Button, Modal, Form, Row, Col, InputGroup } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import API from "../utils/API";
 import AuthAPI from "../utils/AuthAPI";
@@ -77,7 +77,12 @@ const PropertyDetail = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to={"/listings/" + id + "/offers"}>
+          <Link className="nav-link" to={{
+            pathname: "/listings/" + id + "/offers",
+            state: {
+              property: property
+            }
+          }}>
             Offers
           </Link>
         </li>
@@ -103,7 +108,9 @@ const PropertyDetail = () => {
       </Alert>
 
       <nav className="navbar d-flex">
-        <button type="button" className="btn btn-primary">Back</button>
+        <Link to={"/listings"} >
+          <button type="button" className="btn btn-primary">Back</button>
+        </Link>
         <h2>{property.addressOne}, {property.city}, {property.state} {property.zipcode}</h2>
         <ul className="ms-auto nav">
           {
@@ -111,11 +118,6 @@ const PropertyDetail = () => {
           }
         </ul>
       </nav>
-      <div className="property-detail-photo-container">
-        <div className="container">
-          <img src="..." alt="..." />
-        </div>
-      </div>
       <div className="basic-info-container container">
         <div className="row">
           <div className="col-6">
@@ -140,7 +142,7 @@ const PropertyDetail = () => {
         <div className="row">
           <div className="col-6">
             <h6 className="header">Reason</h6>
-            <p>{property.reason}</p>
+            <p>{property.propertyReason}</p>
           </div>
           <div className="col-6">
             <h6 className="header">Expected Amount</h6>
@@ -158,28 +160,44 @@ const PropertyDetail = () => {
             <Form.Group>
               <Row>
                 <Col>
-                  <Form.Label>Loan Amout</Form.Label>
-                  <Form.Control type="number" placeholder="Enter Loan Amount" ref={offerLoanAmount} />
+                  <Form.Label className="offer-label">Loan Amout</Form.Label>
+                  <InputGroup>
+                    <InputGroup.Text>$</InputGroup.Text>
+                    <Form.Control type="number" placeholder="Enter Loan Amount" ref={offerLoanAmount} />
+                  </InputGroup>
+
                 </Col>
                 <Col>
-                  <Form.Label>Interest Rate</Form.Label>
-                  <Form.Control type="number" placeholder="Enter Interest Rate" ref={offerInterestRate} />
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Form.Label>LTV</Form.Label>
-                  <Form.Control type="number" placeholder="Enter LTV" ref={offerLTV} />
-                </Col>
-                <Col>
-                  <Form.Label>Term</Form.Label>
-                  <Form.Control type="number" placeholder="Enter Term Years" ref={offerTerm} />
+                  <Form.Label className="offer-label">Interest Rate</Form.Label>
+                  <InputGroup>
+                    <Form.Control type="number" placeholder="Enter Interest Rate" ref={offerInterestRate} />
+                    <InputGroup.Text>%</InputGroup.Text>
+                  </InputGroup>
                 </Col>
               </Row>
               <Row>
                 <Col>
-                  <Form.Label>Amortization</Form.Label>
-                  <Form.Control type="number" placeholder="Enter Amortization Years" ref={offerAmortization} />
+                  <Form.Label className="offer-label">LTV</Form.Label>
+                  <InputGroup>
+                    <Form.Control type="number" placeholder="Enter LTV" ref={offerLTV} />
+                    <InputGroup.Text>%</InputGroup.Text>
+                  </InputGroup>
+                </Col>
+                <Col>
+                  <Form.Label className="offer-label">Term</Form.Label>
+                  <InputGroup>
+                    <Form.Control type="number" placeholder="Enter Term" ref={offerTerm} />
+                    <InputGroup.Text>Years</InputGroup.Text>
+                  </InputGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Label className="offer-label">Amortization</Form.Label>
+                  <InputGroup>
+                    <Form.Control type="number" placeholder="Enter Amortization" ref={offerAmortization} />
+                    <InputGroup.Text>Years</InputGroup.Text>
+                  </InputGroup>
                 </Col>
                 <Col>
                 </Col>

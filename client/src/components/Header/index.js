@@ -1,27 +1,55 @@
 import React, { useContext } from "react";
-import { Button } from "react-bootstrap";
+import { Container, Button, Row, Col } from "react-bootstrap";
 import API from "../../utils/API";
 import AuthAPI from "../../utils/AuthAPI";
+import CompanyContext from "../../utils/CompanyContext";
+import BankContext from "../../utils/BankContext";
+import './style.css';
 
 const Header = () => {
   const authApi = useContext(AuthAPI);
+  const companyContext = useContext(CompanyContext);
+  const bankContext = useContext(BankContext);
+
   const logOut = () => {
     API.logout()
       .then(response => {
         authApi.setAuth(false);
+        companyContext.setCompanyId();
+        bankContext.setCompanyIsBank();
       })
   }
 
+  function displayHeader() {
+    return authApi.auth ? (
+      <>
+        <Container fluid className="globalHeader">
+          <Row>
+            <Col>
+              <h3 className="p-2">Fllo</h3>
+            </Col>
+            <Col md="auto">
+              <Row className="p-2">
+                <Button className="p-2" onClick={logOut}>Log out</Button>
+              </Row>
+            </Col>
+          </Row>
+        </Container>
+      </>)
+      :
+      <Container fluid>
+        <Row className="justify-content-md-center">
+          <Col>
+            <h1>Welcome to Fllo</h1>
+          </Col>
+        </Row>
+      </Container>
+  }
+
   return (
-    <div className="d-flex">
-      <div className="p-2">
-        <p>Company Name</p>
-      </div>
-      <div className="ms-auto p-2">
-        <p>Icon</p>
-        <Button onClick={logOut}>Log out</Button>
-      </div>
-    </div>
+    <>
+      {displayHeader()}
+    </>
   )
 };
 

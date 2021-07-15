@@ -3,10 +3,12 @@ import API from "../utils/API";
 import { Form, Button } from "react-bootstrap";
 import AuthAPI from "../utils/AuthAPI";
 import CompanyContext from "../utils/CompanyContext";
+import BankContext from "../utils/BankContext";
 
 const Login = () => {
   const authApi = useContext(AuthAPI);
   const companyContext = useContext(CompanyContext);
+  const bankContext = useContext(BankContext);
   const [userInfo, setUserInfo] = useState({});
   let email = useRef({});
   let password = useRef({});
@@ -24,7 +26,7 @@ const Login = () => {
         authApi.setAuth(userData.auth);
         // setUserId(userData.user_id);
         companyContext.setCompanyId(userData.company_id);
-        companyContext.setCompanyIsBank(userData.company_isBank);
+        bankContext.setCompanyIsBank(userData.company_isBank);
       })
       .catch(err => { console.log(err) })
   }

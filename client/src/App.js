@@ -6,6 +6,7 @@ import API from "./utils/API";
 import AuthAPI from "./utils/AuthAPI";
 import CompanyContext from "./utils/CompanyContext";
 import BankContext from "./utils/BankContext";
+import './App.css';
 
 function App() {
   const [auth, setAuth] = useState(false);

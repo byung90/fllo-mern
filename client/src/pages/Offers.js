@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
 import BankOfferTableRow from "../components/BankOfferTableRow";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import API from "../utils/API";
 import AuthAPI from "../utils/AuthAPI";
 
 const Offers = () => {
   const authApi = useContext(AuthAPI);
-  console.log("offer");
   // Property Id
   const propertyId = useParams().id;
+  const location = useLocation();
+  const { property } = location.state;
 
   const [offers, setOffers] = useState([]);
   const [offerStatus, setOfferStatus] = useState(false);
+
 
   useEffect(() => {
     loadOffers();
@@ -33,8 +35,10 @@ const Offers = () => {
   return (
     <>
       <nav className="navbar d-flex">
-        <button type="button" className="btn btn-primary">Back</button>
-        <h2>Building Address</h2>
+        <Link to={"/listings"} >
+          <button type="button" className="btn btn-primary">Back</button>
+        </Link>
+        <h2>{property.addressOne}, {property.city}, {property.state} {property.zipcode}</h2>
         <ul className="ms-auto nav">
           <li className="nav-item">
             <Link className="nav-link active" aria-current="page" to={"/listings/" + propertyId}>

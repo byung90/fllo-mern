@@ -74,32 +74,32 @@ const Add = () => {
       <nav className="navbar">
         <h2>Add New Listing</h2>
       </nav>
-      <div className="container">
+      <div className="container basic-info-container">
         <Form>
           <h3>Basic Information</h3>
           <Row>
             <Col>
-              <Form.Label>Address One</Form.Label>
+              <Form.Label className="new-listing-label">Address One</Form.Label>
               <Form.Control type="text" placeholder="Enter Address 1" ref={addressOne} />
             </Col>
             <Col>
-              <Form.Label>Address Two</Form.Label>
+              <Form.Label className="new-listing-label">Address Two</Form.Label>
               <Form.Control type="text" placeholder="Enter Address 2" ref={addressTwo} />
             </Col>
           </Row>
           <Row>
             <Col>
-              <Form.Label>City</Form.Label>
+              <Form.Label className="new-listing-label">City</Form.Label>
               <Form.Control type="text" placeholder="Enter City" ref={city} />
             </Col>
             <Col>
-              <Form.Label>State</Form.Label>
+              <Form.Label className="new-listing-label">State</Form.Label>
               <SelectUSState id="myId" className="form-control" onChange={handlePropertyStateChange} />
             </Col>
           </Row>
           <Row>
             <Col>
-              <Form.Label>Zipcode</Form.Label>
+              <Form.Label className="new-listing-label">Zipcode</Form.Label>
               <Form.Control type="number" placeholder="Enter Zipcode" ref={zipcode} />
             </Col>
             <Col>
@@ -107,7 +107,7 @@ const Add = () => {
           </Row>
           <Row>
             <Col>
-              <Form.Label>Property Type</Form.Label>
+              <Form.Label className="new-listing-label">Property Type</Form.Label>
               <Form.Control as="select" ref={propertyType}>
                 <option value="Commercial Housing">Commercial Housing</option>
                 <option value="Hotel and Resort">Hotel and Resort</option>
@@ -116,7 +116,7 @@ const Add = () => {
               </Form.Control>
             </Col>
             <Col>
-              <Form.Label>Property Class</Form.Label>
+              <Form.Label className="new-listing-label">Property Class</Form.Label>
               <Form.Control as="select" ref={propertyClass}>
                 <option value="A">A</option>
                 <option value="B">B</option>
@@ -126,7 +126,7 @@ const Add = () => {
           </Row>
           <Row>
             <Col>
-              <Form.Label>Loan Type</Form.Label>
+              <Form.Label className="new-listing-label">Loan Type</Form.Label>
               <Form.Control as="select" ref={loanType}>
                 <option value="Small">Small</option>
                 <option value="Medium">Medium</option>
@@ -134,7 +134,7 @@ const Add = () => {
               </Form.Control>
             </Col>
             <Col>
-              <Form.Label>Reason</Form.Label>
+              <Form.Label className="new-listing-label">Reason</Form.Label>
               <Form.Control as="select" ref={reason}>
                 <option value="Purchase">Purchase</option>
                 <option value="Refinance">Refinance</option>
@@ -144,20 +144,16 @@ const Add = () => {
           </Row>
           <Row>
             <Col>
-              <Form.Label>Loan to Value</Form.Label>
+              <Form.Label className="new-listing-label">Loan to Value</Form.Label>
               <Form.Control type="number" placeholder="Control Loan Type" ref={ltv} />
             </Col>
             <Col>
-              <Form.Label>Expected Amount</Form.Label>
+              <Form.Label className="new-listing-label">Expected Amount</Form.Label>
               <Form.Control type="number" placeholder="Enter Expected Amount" ref={expectedAmount} />
             </Col>
           </Row>
         </Form>
-        <div className="property-photo-grid">
-          <h3>Photo</h3>
-          <UploadImageCard />
-        </div>
-        <div className="">
+        <div className="add-new-property-button">
           <button type="button" className="btn btn-primary" onClick={createNewProperty}>Submit</button>
         </div>
       </div>

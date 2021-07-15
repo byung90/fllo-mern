@@ -1,38 +1,30 @@
-.App {
-  text-align: center;
+h1, h2, h3, h4, h5, p {
+  font-family: Roboto;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.bold-text {
+  font-weight: bold;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.navbar {
+  background-color: #E9E9E9;
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.basic-info-container, .property-list-container {
+  margin-top: 20px;
 }
 
-.App-link {
-  color: #61dafb;
+.basic-info-container p {
+  font-size: 30px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.offer-label, .new-listing-label {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+.add-new-property-button {
+  margin-top: 20px;
 }

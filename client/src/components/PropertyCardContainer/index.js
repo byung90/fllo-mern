@@ -3,6 +3,8 @@ import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import CompanyContext from "../../utils/CompanyContext";
 import BankContext from "../../utils/BankContext";
+import { CardGroup, Card } from "react-bootstrap";
+import "./style.css";
 
 const PropertyCardContainer = () => {
   const [properties, setProperties] = useState([]);
@@ -41,33 +43,28 @@ const PropertyCardContainer = () => {
   }
 
   return (
-    <div className="d-flex flex-wrap">
+    <div className="property-list-container d-flex flex-wrap">
       {properties.map(property => (
-        <div className="card col-3" key={property._id}>
-          <Link to={"/listings/" + property._id}>
-            <img src="..." className="card-img-top" alt="..." />
-          </Link>
-
-          <div className="card-body">
-            <Link to={"/listings/" + property._id}>
-              <h5 className="card-title">{property.addressOne}, {property.city}, {property.state} {property.zipcode}</h5>
-            </Link>
-            <p className="card-text">
-              LTV: {property.ltv}
-              <br />
-              Expected Amount: {property.expectedAmount}
-            </p>
-
-            <p className="card-text">
-              {property.propertyType} / {property.propertyClass}
-              <br />
-              Loan Type: {property.loanType}
-              <br />
-              Property Type: {property.propertyType}
-            </p>
-
+        <div className="col-4" key={property._id}>
+          <div className="card">
+            <div className="card-body">
+              <Link to={"/listings/" + property._id}>
+                <h4 className="card-title">{property.addressOne}, {property.city}, {property.state} {property.zipcode}</h4>
+              </Link>
+              <p className="card-text">
+                <span className="bold-text">Property Type:</span> {property.propertyType}
+                <br />
+                <span className="bold-text">Class:</span> {property.propertyClass}
+                Loan Type: {property.loanType}
+                <br />
+              </p>
+              <p className="card-text">
+                <span className="bold-text">LTV:</span> {property.ltv}%
+                <br />
+                <span className="bold-text">Loan Amount:</span> ${property.expectedAmount}
+              </p>
+            </div>
           </div>
-
         </div>
       ))
       }
