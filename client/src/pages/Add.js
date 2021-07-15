@@ -1,13 +1,65 @@
-import React from "react";
+import React, { useState, useRef, useContext } from "react";
 import UploadImageCard from "../components/UploadImageCard";
+import { Alert, Button, Modal, Form, Row, Col } from "react-bootstrap"
+import { Link, useParams } from "react-router-dom";
+import API from "../utils/API";
+import AuthAPI from "../utils/AuthAPI";
+import CompanyContext from "../utils/CompanyContext";
 
 const Add = () => {
+  const authContext = useContext(AuthAPI);
+  const companyContext = useContext(CompanyContext);
+
+  const [newProperty, setNewProperty] = useState({});
+  let addressOne = useRef({});
+  let addressTwo = useRef({});
+  let city = useRef({});
+  let propertyState = useRef({});
+  let zipcode = useRef({});
+  let propertyType = useRef({});
+  let propertyClass = useRef({});
+  let reason = useRef({});
+  let ltv = useRef({});
+  let loanType = useRef({});
+
   return (
     <div>
       <nav className="navbar">
         Add New Listing
       </nav>
       <div className="container">
+        <Form>
+          <h3>Basic Information</h3>
+          <Row>
+            <Col>
+              <Form.Label>Address One</Form.Label>
+              <Form.Control type="text" placeholder="Enter Address 1" ref={addressOne} />
+            </Col>
+            <Col>
+              <Form.Label>Address Two</Form.Label>
+              <Form.Control type="text" placeholder="Enter Address 2" ref={addressTwo} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Label>City</Form.Label>
+              <Form.Control type="text" placeholder="Enter City" ref={city} />
+            </Col>
+            <Col>
+              <Form.Label>State</Form.Label>
+              <Form.Control type="text" placeholder="Select State" ref={propertyState} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Label>Zipcode</Form.Label>
+              <Form.Control type="text" placeholder="Enter Zipcode" ref={zipcode} />
+            </Col>
+            <Col>
+
+            </Col>
+          </Row>
+        </Form>
         <form>
           <h3>Basic Information</h3>
           <div className="row">
@@ -88,8 +140,8 @@ const Add = () => {
               <input type="number" className="form-control" placeholder="Enter Value" />
             </div>
             <div className="col-6">
-              <label htmlFor="newListingLoanType" className="">Select Loan Type</label>
-              <input type="number" className="form-control" placeholder="City" />
+              <label htmlFor="newListingExpected" className="">Expected Amount</label>
+              <input type="number" className="form-control" placeholder="Enter Expected Amount" />
             </div>
           </div>
         </form>

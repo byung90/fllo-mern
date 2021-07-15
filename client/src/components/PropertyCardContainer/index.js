@@ -3,27 +3,32 @@ import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import AuthAPI from "../../utils/AuthAPI";
 import CompanyContext from "../../utils/CompanyContext";
+import BankContext from "../../utils/BankContext";
 
 const PropertyCardContainer = () => {
   const [properties, setProperties] = useState([]);
-  const [authMounted, setAuthMounted] = useState(false);
-  const authApi = useContext(AuthAPI);
+  // const authApi = useContext(AuthAPI);
   const companyContext = useContext(CompanyContext);
+  const bankContext = useContext(BankContext);
 
   useEffect(() => {
-    if (companyContext.companyId !== undefined && companyContext.companyIsBank !== undefined) {
+    console.log("hi");
+    console.log(companyContext);
+    console.log(bankContext);
+    // loadProperties();
+    if (companyContext.companyId !== undefined && bankContext.companyIsBank !== undefined) {
       loadProperties();
+      console.log(properties);
     }
-  }, []);
+  }, [companyContext.companyId, bankContext.companyIsBank]);
 
   function loadProperties() {
-    // console.log(authApi);
     const companyId = companyContext.companyId;
-    const companyIsBank = companyContext.companyIsBank;
+    const companyIsBank = bankContext.companyIsBank;
+    console.log(companyId);
 
     if (!companyIsBank) {
       API.getCompanyListings(companyId).then(res => {
-        console.log(res);
         setProperties(prev => {
           return res.data;
         });
@@ -31,16 +36,13 @@ const PropertyCardContainer = () => {
     }
     else {
       API.getAllListings().then(res => {
+        console.log(res.data);
         setProperties(prev => {
           console.log(prev);
           return res.data;
         });
       });
     }
-
-
-
-
   }
 
   return (
@@ -52,9 +54,9 @@ const PropertyCardContainer = () => {
           </Link>
 
           <div className="card-body">
-            <a href={"/listings/" + property._id}>
+            <Link to={"/listings/" + property._id}>
               <h5 className="card-title">{property.addressOne}, {property.city}, {property.state} {property.zipcode}</h5>
-            </a>
+            </Link>
             <p className="card-text">
               LTV: {property.ltv}
               <br />

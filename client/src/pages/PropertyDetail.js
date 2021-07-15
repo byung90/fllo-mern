@@ -3,11 +3,14 @@ import { Alert, Button, Modal, Form, Row, Col } from "react-bootstrap"
 import { Link, useParams } from "react-router-dom";
 import API from "../utils/API";
 import AuthAPI from "../utils/AuthAPI";
+import CompanyContext from "../utils/CompanyContext";
+import BankContext from "../utils/BankContext";
 
 const PropertyDetail = () => {
   const authApi = useContext(AuthAPI);
-
-  console.log(authApi.api);
+  const companyContext = useContext(CompanyContext);
+  const bankContext = useContext(BankContext);
+  console.log(authApi.auth);
 
   // Property Id
   const { id } = useParams();
@@ -39,7 +42,7 @@ const PropertyDetail = () => {
       amortization: offerAmortization.current.value,
       status: "Pending",
       property: id,
-      bank: "60e962ff9d68e91dec78a18a"
+      bank: companyContext.companyId
     }
 
     API.createOffer(newOffer)
@@ -65,6 +68,28 @@ const PropertyDetail = () => {
       .catch(err => console.log(err));
   }
 
+  function displayNav() {
+    return !bankContext.companyIsBank ? (
+      <>
+        <li className="nav-item">
+          <Link className="nav-link active" aria-current="page" to={"/listings/" + id}>
+            Basic Info
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to={"/listings/" + id + "/offers"}>
+            Offers
+          </Link>
+        </li>
+      </>)
+      :
+      <li className="nav-item">
+        <Button variant="primary" onClick={handleShow}>
+          Make Offer
+        </Button>
+      </li>
+  }
+
   return (
     <>
       <Alert show={alertShow} variant="success">
@@ -81,17 +106,9 @@ const PropertyDetail = () => {
         <button type="button" className="btn btn-primary">Back</button>
         <h2>{property.addressOne}, {property.city}, {property.state} {property.zipcode}</h2>
         <ul className="ms-auto nav">
-          <li className="nav-item">
-            <a className="nav-link active" aria-current="page" href="#">Basic Info</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href={"/listings/" + id + "/offers"}>Offers</a>
-          </li>
-          <li className="nav-item">
-            <Button variant="primary" onClick={handleShow}>
-              Launch demo modal
-            </Button>
-          </li>
+          {
+            displayNav()
+          }
         </ul>
       </nav>
       <div className="property-detail-photo-container">

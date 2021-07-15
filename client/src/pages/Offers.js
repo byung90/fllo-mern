@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import BankOfferTableRow from "../components/BankOfferTableRow";
 import { Link, useParams } from "react-router-dom";
 import API from "../utils/API";
+import AuthAPI from "../utils/AuthAPI";
 
 const Offers = () => {
+  const authApi = useContext(AuthAPI);
+  console.log("offer");
   // Property Id
   const propertyId = useParams().id;
 
@@ -35,10 +38,14 @@ const Offers = () => {
         <h2>Building Address</h2>
         <ul className="ms-auto nav">
           <li className="nav-item">
-            <a className="nav-link active" aria-current="page" href="#">Basic Info</a>
+            <Link className="nav-link active" aria-current="page" to={"/listings/" + propertyId}>
+              Basic Info
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">Offers</a>
+            <Link className="nav-link" to={"/listings/" + propertyId + "/offers"}>
+              Offers
+            </Link>
           </li>
         </ul>
       </nav>

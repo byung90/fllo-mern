@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropertyCardContainer from "../components/PropertyCardContainer";
 import API from "../utils/API";
+import AuthAPI from "../utils/AuthAPI";
 
 const Listings = () => {
   return (

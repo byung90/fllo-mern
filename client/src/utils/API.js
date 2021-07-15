@@ -1,4 +1,5 @@
 import axios from "axios";
+axios.defaults.baseURL = '/';
 
 const postLogin = (submitLogin) => {
   return axios.post("api/user/login", submitLogin);
