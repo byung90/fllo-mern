@@ -247,4 +247,19 @@ router.post("/api/createOffer", ({ body }, res) => {
     });
 });
 
+// Update offer
+router.post("/api/rejectAllOffers", (req, res) => {
+  const query = {
+    _id: req.body.propertyId
+  };
+  db.Offer.updateMany(query, { status: "Rejected" })
+    .then(dbOffer => {
+      console.log(dbOffer);
+      res.json(dbOffer);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
 module.exports = router;

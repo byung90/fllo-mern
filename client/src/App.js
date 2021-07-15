@@ -1,12 +1,6 @@
 import React, { useState, useEffect, } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Header from "./components/Header";
-// import Listings from "./pages/Listings";
-// import PropertyDetail from "./pages/PropertyDetail";
-// import Offers from "./pages/Offers";
-// import Add from "./pages/Add";
-// import Login from "./pages/Login";
-// import SignUp from "./pages/SignUp";
 import Routes from "./Routes";
 import API from "./utils/API";
 import AuthAPI from "./utils/AuthAPI";

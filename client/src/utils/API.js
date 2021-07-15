@@ -45,6 +45,10 @@ const createOffer = (offerData) => {
   return axios.post("api/createOffer", offerData)
 }
 
+const createProperty = (propertyData) => {
+  return axios.post("api/createProperty", propertyData)
+}
+
 export default {
   getAllListings,
   getPropertyDetail,
@@ -56,5 +60,6 @@ export default {
   checkAuth,
   getUser,
   logout,
-  getCompanyListings
+  getCompanyListings,
+  createProperty
 }
