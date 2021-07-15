@@ -31,6 +31,7 @@ router.post("/api/user/create", (req, res) => {
 // list users - DEVELOPMENT
 router.get("/api/users", (req, res) => {
   db.User.find({})
+    .populate("company")
     .then(dbProperty => {
       res.json(dbProperty);
     })
@@ -114,6 +115,7 @@ router.get("/api/user/checkAuth", (req, res) => {
   }
 })
 
+// Get individual user info
 router.get("/api/user/:id", (req, res) => {
   db.User.findById(req.params.id)
     .populate("company")
@@ -141,9 +143,6 @@ router.post("/api/createCompany", ({ body }, res) => {
 // Create Property
 router.post("/api/createProperty", ({ body }, res) => {
   db.Property.create(body)
-    // .then(({ _id, company }) => {
-    //   db.Company.findOneAndUpdate({ company }, { $push: { properties: _id } })
-    // })
     .then(dbProperty => {
       res.json(dbProperty);
     })
@@ -227,6 +226,7 @@ router.get("/api/:propertyId/offers", (req, res) => {
   db.Offer.find({
     property: req.params.propertyId
   })
+    .populate("bank")
     .then(dbOffers => {
       res.json(dbOffers);
     })
@@ -247,12 +247,9 @@ router.post("/api/createOffer", ({ body }, res) => {
     });
 });
 
-// Update offer
-router.post("/api/rejectAllOffers", (req, res) => {
-  const query = {
-    _id: req.body.propertyId
-  };
-  db.Offer.updateMany(query, { status: "Rejected" })
+// Reject all offers for property
+router.put("/api/:propertyId/rejectAllOffers", (req, res) => {
+  db.Offer.updateMany({ property: req.params.propertyId }, { status: "Rejected" })
     .then(dbOffer => {
       console.log(dbOffer);
       res.json(dbOffer);
@@ -261,5 +258,30 @@ router.post("/api/rejectAllOffers", (req, res) => {
       res.status(400).json(err);
     });
 });
+
+// Accept one offer
+router.put("/api/updateOffer/:offerId", (req, res) => {
+  db.Offer.updateOne({ _id: req.params.offerId }, { status: "Accepted" })
+    .then(dbOffer => {
+      console.log(dbOffer);
+      res.json(dbOffer);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// All pending offers for property DEVELOPMENT
+router.put("/api/:propertyId/pending", (req, res) => {
+  db.Offer.updateMany({ property: req.params.propertyId }, { status: "Pending" })
+    .then(dbOffer => {
+      console.log(dbOffer);
+      res.json(dbOffer);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
 
 module.exports = router;

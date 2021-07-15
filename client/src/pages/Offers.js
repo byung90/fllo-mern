@@ -11,10 +11,11 @@ const Offers = () => {
   const propertyId = useParams().id;
 
   const [offers, setOffers] = useState([]);
+  const [offerStatus, setOfferStatus] = useState(false);
 
   useEffect(() => {
     loadOffers();
-  }, []);
+  }, [offerStatus]);
 
   function loadOffers() {
     API.getOffers(propertyId)
@@ -25,10 +26,8 @@ const Offers = () => {
       .catch(err => console.log(err));
   }
 
-  const displayOffers = () => {
-    offers.map(offer => (
-      <BankOfferTableRow key={offer._id} {...offer} />
-    ))
+  function handleOfferStatus(newValue) {
+    setOfferStatus(newValue);
   }
 
   return (
@@ -63,7 +62,7 @@ const Offers = () => {
         </thead>
         <tbody>
           {offers.map(offer => (
-            <BankOfferTableRow key={offer._id} {...offer} />
+            <BankOfferTableRow key={offer._id} {...offer} value={offerStatus} onChange={handleOfferStatus} />
           ))}
         </tbody>
       </table>

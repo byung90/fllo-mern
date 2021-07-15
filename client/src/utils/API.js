@@ -49,6 +49,14 @@ const createProperty = (propertyData) => {
   return axios.post("api/createProperty", propertyData)
 }
 
+const rejectAllOffers = (propertyId) => {
+  return axios.put("api/" + propertyId + "/rejectAllOffers");
+}
+
+const acceptOffer = (propertyId) => {
+  return axios.put("api/updateOffer/" + propertyId);
+}
+
 export default {
   getAllListings,
   getPropertyDetail,
@@ -61,5 +69,7 @@ export default {
   getUser,
   logout,
   getCompanyListings,
-  createProperty
+  createProperty,
+  rejectAllOffers,
+  acceptOffer
 }
