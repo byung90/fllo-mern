@@ -21,6 +21,7 @@ const Add = () => {
   let reason = useRef({});
   let ltv = useRef({});
   let loanType = useRef({});
+  let expectedAmount = useRef({});
 
   return (
     <div>
@@ -47,104 +48,73 @@ const Add = () => {
             </Col>
             <Col>
               <Form.Label>State</Form.Label>
-              <Form.Control type="text" placeholder="Select State" ref={propertyState} />
+              <Form.Select placeholder="Select State" ref={propertyState}>
+                <option>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </Form.Select>
             </Col>
           </Row>
           <Row>
             <Col>
               <Form.Label>Zipcode</Form.Label>
-              <Form.Control type="text" placeholder="Enter Zipcode" ref={zipcode} />
+              <Form.Control type="number" placeholder="Enter Zipcode" ref={zipcode} />
             </Col>
             <Col>
-
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Label>Property Type</Form.Label>
+              <Form.Select placeholder="Select Property Type" ref={propertyType}>
+                <option>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </Form.Select>
+            </Col>
+            <Col>
+              <Form.Label>Property Class</Form.Label>
+              <Form.Select placeholder="Select Property Class" ref={propertyClass}>
+                <option>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </Form.Select>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Label>Loan Type</Form.Label>
+              <Form.Select placeholder="Select Loan Type" ref={loanType}>
+                <option>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </Form.Select>
+            </Col>
+            <Col>
+              <Form.Label>Reason</Form.Label>
+              <Form.Select placeholder="Select Property Class" ref={reason}>
+                <option>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </Form.Select>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Label>Loan to Value</Form.Label>
+              <Form.Control type="number" placeholder="Select Loan Type" ref={ltv} />
+            </Col>
+            <Col>
+              <Form.Label>Expected Amount</Form.Label>
+              <Form.Control type="number" placeholder="Enter Expected Amount" ref={expectedAmount} />
             </Col>
           </Row>
         </Form>
-        <form>
-          <h3>Basic Information</h3>
-          <div className="row">
-            <label htmlFor="newListingAddress" className="">Listing's Full Address</label>
-            <div className="col-12">
-              <input type="text" className="form-control" placeholder="Address 1" />
-            </div>
-            <div className="col-12">
-              <input type="text" className="form-control" placeholder="Address 2" />
-            </div>
-            <div className="col-6">
-              <input type="text" className="form-control" placeholder="City" />
-            </div>
-            <div className="col-6">
-              <select className="form-select">
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-              </select>
-            </div>
-            <div className="col-6">
-              <input type="text" className="form-control" placeholder="Zipcode" />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-6">
-              <label htmlFor="newListingPropertyType" className="">Property Type</label>
-              <select className="form-select">
-                <option>Property Type</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-              </select>
-            </div>
-            <div className="col-6">
-              <label htmlFor="newListingPropertyClass" className="">Property Class</label>
-              <select className="form-select">
-                <option>Select Property Class</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-              </select>
-            </div>
-            <div className="col-12">
-              <label htmlFor="newListingReason" className="">Reason</label>
-              <select className="form-select">
-                <option>Select Reason</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-              </select>
-            </div>
-          </div>
-          <h3>Financial Information</h3>
-          <div className="row">
-            <div className="col-12">
-              <label htmlFor="newListingLoanType" className="">Select Loan Type</label>
-              <select className="form-select">
-                <option>Select Loan Type</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-                <option>State</option>
-              </select>
-            </div>
-            <div className="col-6">
-              <label htmlFor="newListingLoanType" className="">Loan to Value</label>
-              <input type="number" className="form-control" placeholder="Enter Value" />
-            </div>
-            <div className="col-6">
-              <label htmlFor="newListingExpected" className="">Expected Amount</label>
-              <input type="number" className="form-control" placeholder="Enter Expected Amount" />
-            </div>
-          </div>
-        </form>
         <div className="property-photo-grid">
           <h3>Photo</h3>
           <UploadImageCard />
@@ -153,7 +123,7 @@ const Add = () => {
           <button type="button" className="btn btn-primary">Submit</button>
         </div>
       </div>
-    </div>
+    </div >
   )
 };
 

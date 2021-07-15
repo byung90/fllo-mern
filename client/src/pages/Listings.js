@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import PropertyCardContainer from "../components/PropertyCardContainer";
 import API from "../utils/API";
 import AuthAPI from "../utils/AuthAPI";
@@ -8,9 +10,9 @@ const Listings = () => {
     <>
       <nav className="navbar d-flex">
         <h2>All listings</h2>
-        <div className="ms-auto">
-          Add New Property
-        </div>
+        <Link to={"/add"} className="ms-auto">
+          <Button variant="primary">Add New Property</Button>
+        </Link>
       </nav>
       <PropertyCardContainer />
     </>
