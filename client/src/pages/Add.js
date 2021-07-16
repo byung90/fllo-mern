@@ -1,7 +1,6 @@
 import React, { useState, useRef, useContext } from "react";
-import UploadImageCard from "../components/UploadImageCard";
-import { Alert, Button, Modal, Form, Row, Col } from "react-bootstrap"
-import { Link, useHistory } from "react-router-dom";
+import { Alert, Button, Form, Row, Col, InputGroup } from "react-bootstrap"
+import { useHistory } from "react-router-dom";
 import API from "../utils/API";
 import AuthAPI from "../utils/AuthAPI";
 import CompanyContext from "../utils/CompanyContext";
@@ -145,11 +144,19 @@ const Add = () => {
           <Row>
             <Col>
               <Form.Label className="new-listing-label">Loan to Value</Form.Label>
-              <Form.Control type="number" placeholder="Control Loan Type" ref={ltv} />
+              <InputGroup>
+                <Form.Control type="number" placeholder="Enter LTV" ref={ltv} />
+                <InputGroup.Text>Years</InputGroup.Text>
+              </InputGroup>
+
             </Col>
             <Col>
               <Form.Label className="new-listing-label">Expected Amount</Form.Label>
-              <Form.Control type="number" placeholder="Enter Expected Amount" ref={expectedAmount} />
+              <InputGroup>
+                <InputGroup.Text>$</InputGroup.Text>
+                <Form.Control type="number" placeholder="Enter Expected Amount" ref={expectedAmount} />
+              </InputGroup>
+
             </Col>
           </Row>
         </Form>

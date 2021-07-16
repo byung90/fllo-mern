@@ -38,9 +38,9 @@ const Header = () => {
       </>)
       :
       <Container fluid>
-        <Row className="justify-content-md-center">
+        <Row className="justify-content-md-center globalHeader">
           <Col>
-            <h1>Welcome to Fllo</h1>
+            <h3 className="p-2 align-center">Fllo</h3>
           </Col>
         </Row>
       </Container>
